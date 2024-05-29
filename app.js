@@ -144,7 +144,14 @@ const UIController = (function() {
 
         // create the list of related artists in the HTML
         createRelatedArtist(link, name) {
-            const html = `<a href="#" class="list-group-item list-group-item-action list-group-item-light" id="${link}">${name}</a>`;
+            const html = 
+            `<a href="#" class="list-group-item list-group-item-action list-group-item-light" id="${link}">${name}</a>`;
+            document.querySelector(DOMElements.artistOutput).insertAdjacentHTML('beforeend', html);
+        },
+
+        //input directions befor lodaing artist list
+        lodeDirections() {
+            const html = '<p>Click on an Artist to get more information!</p>';
             document.querySelector(DOMElements.artistOutput).insertAdjacentHTML('beforeend', html);
         },
 
@@ -221,6 +228,7 @@ const APPController = (function(UICtrl, APICtrl) {
         let relatedArtists = await APICtrl.getRealtedArtists(token, artistID);
         // add the original artist in frount
         relatedArtists.unshift(artists[0])
+        UICtrl.lodeDirections();
         // get links / name / artist for each artist
         for(let i = 0; i <= 5; i++){
 
@@ -251,6 +259,7 @@ const APPController = (function(UICtrl, APICtrl) {
         let name = selectedArtestInfo.name;
         let artistLink = selectedArtestInfo.external_urls.spotify;
         let genre = selectedArtestInfo.genres;
+        console.log(genre)
 
         //go through each lie of genre array and capitalize leters
         for (let i = 0; i < genre.length; i++) {
@@ -277,7 +286,6 @@ const APPController = (function(UICtrl, APICtrl) {
         };
 
         let genres = genre.join(", ");  
-
 
         //GRT TOP TRACKS OF THE ARTIST
         //selected artist ID
